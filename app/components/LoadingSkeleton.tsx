@@ -3,7 +3,7 @@ import styles from './LoadingSkeleton.module.css';
 export default function LoadingSkeleton() {
   return (
     <div className={styles.skeletonWrapper} role="status" aria-label="Loading scheme details">
-      <span className="sr-only">Fetching details from official portal…</span>
+      <span className="sr-only">Fetching details from official portal (this may take 10-15 seconds)…</span>
 
       {[1, 2, 3].map((i) => (
         <div key={i} className={`card ${styles.skeletonCard}`}>
@@ -19,7 +19,7 @@ export default function LoadingSkeleton() {
         </div>
       ))}
 
-      <p className={styles.loadingText}>Fetching details from official portal…</p>
+      <p className={styles.loadingText}>Fetching details from official portal (this may take 10-15 seconds)…</p>
     </div>
   );
 }

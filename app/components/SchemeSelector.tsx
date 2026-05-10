@@ -65,7 +65,7 @@ export default function SchemeSelector({ onSchemeSelect, isLoading = false }: Sc
           disabled={!selectedId || isLoading}
           aria-busy={isLoading}
         >
-          {isLoading ? 'Fetching details...' : 'Get Details'}
+          {isLoading ? 'Fetching (10-15s)...' : 'Get Details'}
         </button>
       </form>
       <p className={styles.helperText}>
