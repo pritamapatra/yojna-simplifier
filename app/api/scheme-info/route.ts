@@ -3,6 +3,7 @@ import { getSchemeById } from '@/lib/schemes';
 import { SchemeInfoResponse } from '@/lib/types';
 
 export const runtime = 'nodejs';
+export const maxDuration = 60; // Allow Vercel function to run up to 60 seconds
 
 /**
  * POST /api/scheme-info
@@ -52,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     // Call Anakin URL Scraper API with timeout
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+    const timeoutId = setTimeout(() => controller.abort(), 55000); // 55s timeout
 
     let anakinResponse: Response;
     try {
@@ -126,12 +127,12 @@ export async function POST(request: NextRequest) {
     if (jobId && (initialStatus === 'pending' || initialStatus === 'processing')) {
       let isCompleted = false;
       let attempts = 0;
-      const maxAttempts = 5; // 5 attempts * 2s = 10s max polling
+      const maxAttempts = 15; // 15 attempts * 3s = 45s max polling
 
       while (!isCompleted && attempts < maxAttempts) {
         attempts++;
-        // Wait 2 seconds before polling
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        // Wait 3 seconds before polling
+        await new Promise((resolve) => setTimeout(resolve, 3000));
         
         try {
           const pollResponse = await fetch(`https://api.anakin.io/v1/url-scraper/${jobId}`, {
@@ -139,7 +140,6 @@ export async function POST(request: NextRequest) {
             headers: {
               'X-API-Key': apiKey,
             },
-            signal: controller.signal,
           });
 
           if (pollResponse.ok) {
@@ -154,6 +154,17 @@ export async function POST(request: NextRequest) {
         } catch (e) {
           // Ignore network errors during polling and try again
         }
+      }
+
+      if (!isCompleted) {
+        return NextResponse.json<SchemeInfoResponse>(
+          {
+            success: false,
+            error: 'The official site is taking too long to load. Please try again later.',
+            officialUrl: scheme.officialUrl,
+          },
+          { status: 504 }
+        );
       }
     }
 
