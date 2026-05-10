@@ -6,7 +6,10 @@ import EmptyState from './EmptyState';
 import LoadingSkeleton from './LoadingSkeleton';
 import ErrorBanner from './ErrorBanner';
 import SummarySections from './SummarySections';
+import CopyButton from './CopyButton';
+import Toast from './Toast';
 import { SchemeSummary } from '@/lib/types';
+import { SCHEMES } from '@/lib/schemes';
 
 type PageState = 'idle' | 'loading' | 'success' | 'error';
 
@@ -15,6 +18,7 @@ export default function MainContent() {
   const [selectedSchemeId, setSelectedSchemeId] = useState<string | null>(null);
   const [summaryData, setSummaryData] = useState<SchemeSummary | null>(null);
   const [errorInfo, setErrorInfo] = useState<{ message: string; officialUrl: string } | null>(null);
+  const [toastVisible, setToastVisible] = useState(false);
 
   const fetchSchemeDetails = async (schemeId: string) => {
     setSelectedSchemeId(schemeId);
@@ -57,6 +61,8 @@ export default function MainContent() {
     }
   };
 
+  const selectedSchemeName = SCHEMES.find(s => s.id === selectedSchemeId)?.name || 'Scheme';
+
   return (
     <>
       <section style={{ maxWidth: '600px', margin: '0 auto var(--space-xl)' }}>
@@ -74,9 +80,24 @@ export default function MainContent() {
           />
         )}
         {pageState === 'success' && summaryData && (
-          <SummarySections data={summaryData} />
+          <div style={{ animation: 'fadeIn 300ms ease' }}>
+            <SummarySections data={summaryData} />
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 'var(--space-xl)' }}>
+              <CopyButton 
+                summaryData={summaryData} 
+                schemeName={selectedSchemeName} 
+                onCopySuccess={() => setToastVisible(true)} 
+              />
+            </div>
+          </div>
         )}
       </section>
+
+      <Toast 
+        message="Summary copied – paste into WhatsApp or notes." 
+        isVisible={toastVisible} 
+        onClose={() => setToastVisible(false)} 
+      />
     </>
   );
 }

@@ -1,0 +1,14 @@
+.copyButton {
+  margin-top: var(--space-md);
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .copyButton {
+    width: auto;
+  }
+}
+
+.icon {
+  margin-right: var(--space-xs);
+}
