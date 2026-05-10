@@ -137,10 +137,12 @@ export async function POST(request: NextRequest) {
     }
 
     if (!rawMarkdown) {
+      // For debugging, include the raw JSON structure in the error message
+      const debugInfo = JSON.stringify(anakinData).substring(0, 100);
       return NextResponse.json<SchemeInfoResponse>(
         {
           success: false,
-          error: 'Could not extract content from the official page. The page structure may have changed.',
+          error: `Could not extract content. API returned: ${debugInfo}`,
           officialUrl: scheme.officialUrl,
         },
         { status: 502 }
