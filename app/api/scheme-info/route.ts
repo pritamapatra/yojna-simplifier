@@ -119,8 +119,11 @@ export async function POST(request: NextRequest) {
     let anakinData = await anakinResponse.json();
 
     // If the API returns a pending job, we need to poll for the result
-    if (anakinData?.jobId && anakinData?.status === 'pending') {
-      const jobId = anakinData.jobId;
+    // Anakin API returns 'id' and 'status': 'processing' or 'pending'
+    const jobId = anakinData?.id || anakinData?.jobId;
+    const initialStatus = anakinData?.status;
+    
+    if (jobId && (initialStatus === 'pending' || initialStatus === 'processing')) {
       let isCompleted = false;
       let attempts = 0;
       const maxAttempts = 5; // 5 attempts * 2s = 10s max polling
@@ -141,9 +144,10 @@ export async function POST(request: NextRequest) {
 
           if (pollResponse.ok) {
             anakinData = await pollResponse.json();
-            if (anakinData?.status === 'completed' || anakinData?.status === 'success' || anakinData?.data) {
+            const currentStatus = anakinData?.status;
+            if (currentStatus === 'completed' || currentStatus === 'success' || anakinData?.data) {
               isCompleted = true;
-            } else if (anakinData?.status === 'failed' || anakinData?.status === 'error') {
+            } else if (currentStatus === 'failed' || currentStatus === 'error') {
               break; // exit loop on failure
             }
           }
