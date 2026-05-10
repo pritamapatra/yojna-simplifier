@@ -116,7 +116,42 @@ export async function POST(request: NextRequest) {
     }
 
     // Parse Anakin response
-    const anakinData = await anakinResponse.json();
+    let anakinData = await anakinResponse.json();
+
+    // If the API returns a pending job, we need to poll for the result
+    if (anakinData?.jobId && anakinData?.status === 'pending') {
+      const jobId = anakinData.jobId;
+      let isCompleted = false;
+      let attempts = 0;
+      const maxAttempts = 5; // 5 attempts * 2s = 10s max polling
+
+      while (!isCompleted && attempts < maxAttempts) {
+        attempts++;
+        // Wait 2 seconds before polling
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        
+        try {
+          const pollResponse = await fetch(`https://api.anakin.io/v1/url-scraper/${jobId}`, {
+            method: 'GET',
+            headers: {
+              'X-API-Key': apiKey,
+            },
+            signal: controller.signal,
+          });
+
+          if (pollResponse.ok) {
+            anakinData = await pollResponse.json();
+            if (anakinData?.status === 'completed' || anakinData?.status === 'success' || anakinData?.data) {
+              isCompleted = true;
+            } else if (anakinData?.status === 'failed' || anakinData?.status === 'error') {
+              break; // exit loop on failure
+            }
+          }
+        } catch (e) {
+          // Ignore network errors during polling and try again
+        }
+      }
+    }
 
     // Extract the markdown content from the response
     // Anakin typically returns { data: { markdown: "..." } } or similar structure
