@@ -1,6 +1,5 @@
 import Header from './components/Header';
-import SchemeSelector from './components/SchemeSelector';
-import EmptyState from './components/EmptyState';
+import MainContent from './components/MainContent';
 import Footer from './components/Footer';
 import styles from './page.module.css';
 
@@ -16,14 +15,7 @@ export default function Home() {
           </p>
         </section>
 
-        <section className={styles.selectorSection}>
-          <SchemeSelector />
-        </section>
-
-        <section className={styles.contentSection}>
-          <EmptyState />
-          {/* SummarySections, ErrorBanner, LoadingSkeleton hidden initially */}
-        </section>
+        <MainContent />
       </main>
       <Footer />
     </>
