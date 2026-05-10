@@ -10,8 +10,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Yojana Simplifier",
-  description: "Understand Karnataka government schemes in simple language",
+  title: "Yojana Simplifier – Understand Karnataka Govt Schemes in Simple Language",
+  description: "A simple web app that reads confusing government scheme pages and turns them into clean, easy summaries.",
 };
 
 export default function RootLayout({

@@ -1,0 +1,81 @@
+.skeletonWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+}
+
+.skeletonCard {
+  pointer-events: none;
+}
+
+.skeletonHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.skeletonBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.skeletonLine {
+  height: 14px;
+  background: linear-gradient(
+    90deg,
+    var(--color-border) 25%,
+    #f1f5f9 50%,
+    var(--color-border) 75%
+  );
+  background-size: 200% 100%;
+  border-radius: 4px;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.lineTitle {
+  width: 35%;
+  height: 18px;
+}
+
+.lineBadge {
+  width: 20%;
+  height: 14px;
+}
+
+.lineFull {
+  width: 100%;
+}
+
+.lineMedium {
+  width: 75%;
+}
+
+.lineShort {
+  width: 50%;
+}
+
+.loadingText {
+  text-align: center;
+  font-size: var(--font-size-label);
+  color: var(--color-text-muted);
+  padding: var(--space-sm) 0;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeletonLine {
+    animation: none;
+    background: var(--color-border);
+  }
+}

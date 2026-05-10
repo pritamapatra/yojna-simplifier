@@ -1,0 +1,51 @@
+.errorBanner {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background-color: var(--color-error);
+  border: 1px solid var(--color-error-border);
+  border-radius: var(--radius-card);
+  margin: var(--space-md) 0;
+}
+
+.errorIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.errorContent {
+  flex: 1;
+}
+
+.errorTitle {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-error-text);
+  margin-bottom: var(--space-xs);
+}
+
+.errorMessage {
+  font-size: var(--font-size-label);
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+  line-height: var(--line-height);
+}
+
+.errorActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.officialLink {
+  font-size: var(--font-size-label);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+}
+
+.officialLink:hover {
+  text-decoration: underline;
+}
