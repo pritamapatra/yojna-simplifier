@@ -2,7 +2,7 @@
 
 **Yojana Simplifier** is a mobile-first web application designed to break down the information barrier between complex government portals and everyday citizens. It intelligently live-scrapes official scheme pages and translates administrative jargon into clear, easy-to-read, and shareable summaries.
 
-![Yojana Simplifier Demo Placeholder](https://via.placeholder.com/800x400.png?text=Yojana+Simplifier+Screenshot)
+Deployed Link:- https://yojna-simplifier.vercel.app/
 
 ## 🌟 The Problem
 Navigating official government portals to find scheme eligibility, required documents, and application steps is incredibly frustrating. The pages are often cluttered, slow, and poorly optimized for mobile devices, causing eligible citizens—especially in Tier 2/3 cities—to miss out on crucial benefits.
