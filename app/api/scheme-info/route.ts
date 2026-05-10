@@ -66,6 +66,7 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
           url: scheme.officialUrl,
           formats: ['markdown'],
+          useBrowser: true,
         }),
         signal: controller.signal,
       });
